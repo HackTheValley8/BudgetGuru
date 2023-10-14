@@ -6,6 +6,12 @@ fasttext_model = fasttext.load_facebook_vectors("cc.en.300.bin")
 
 
 # https://www.cs.toronto.edu/~lczhang/aps360_20191/lec/w06/sentiment.html
+# @inproceedings{grave2018learning,
+#   title={Learning Word Vectors for 157 Languages},
+#   author={Grave, Edouard and Bojanowski, Piotr and Gupta, Prakhar and Joulin, Armand and Mikolov, Tomas},
+#   booktitle={Proceedings of the International Conference on Language Resources and Evaluation (LREC 2018)},
+#   year={2018}
+# }
 
 import csv
 import torch
@@ -106,7 +112,7 @@ mymodel = nn.Sequential(nn.Linear(300, 64),
                         nn.ReLU(),
                         nn.Dropout(0.55),
                         nn.Linear(20, 2))
-train_network(mymodel, train_loader, valid_loader, num_epochs=500, learning_rate=1e-4)
+train_network(mymodel, train_loader, valid_loader, num_epochs=5000, learning_rate=1e-4)
 
 
 mymodel.eval()
@@ -148,6 +154,7 @@ with torch.no_grad():
 def getans(text):
     return max(min(round(sigmoid(-predict(text)/2)*10), 10), 0)
 
+torch.save(mymodel.state_dict(), "importance_model.pkl")
 
 from flask import Flask, json
 app = Flask(__name__)
