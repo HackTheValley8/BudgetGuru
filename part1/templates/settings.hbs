@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Settings</title>
+    <link rel="stylesheet" href="/css/settings.css">
+</head>
+<body>
+    <div class="nav">
+    <nav class="naver">
+        <ul class="inside">
+            <li><a href="./home">Home</a></li>
+            <li><a href="/settings">Settings</a></li>
+            <li><a href="/budget-planner">Budget Planner</a></li>
+        </ul>
+    </nav>
+</div>
+
+   <h1>Settings</h1>
+   <p style="font-size: 20px;">Logged in as <span style="color: red;">{{ username }}</span></p>
+   <div class="changeuser">
+   <form action="">
+    <h4>Change Username</h4>
+    <input type="text" placeholder="New Username">
+    <button>submit</button>
+   </form>
+   </div>
+
+   <div class="changepass">
+   <form action="">
+    <h4>Change User Password</h4>
+    <input type="text" placeholder="Old Password" name="" id="">
+    <input type="text" placeholder="New Password">
+    <button>Submit</button>
+   </form>
+    </div>
+
+    <div class="logout">
+   <form action="/logout" method="GET">
+    <h1>Logout</h1>
+    <button>Log out</button>
+   </form>
+   </div>
+</body>
+</html>
