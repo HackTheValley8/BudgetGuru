@@ -1,11 +1,14 @@
 $(document).ready(function () {
 
+var zeroPointOne = null;
 
 infos = localStorage.getItem("infosave");
 if (infos === null) {
     infos = {
         0: {"name": "groceries", "price": 200, "importance": 8},
-        1: {"name": "rent", "price": 600, "importance": 9}
+        1: {"name": "rent", "price": 600, "importance": 9},
+        2: {"name": "John", "price": 900, "importance": 7},
+        3: {"name": "Noor", "price": 800, "importance": 4}
     };
     localStorage.setItem("infosave", JSON.stringify(infos))
 } else {
@@ -94,26 +97,76 @@ function renderTable(infos){
     }
     $(".container table tbody input").on("focusout", tableHandler);
 }
+function calculateTotalBudget(infos) {
+    let totalBudget = 0;
+  
+    for (const key in infos) {
+      totalBudget += infos[key].price;
+    }
+  
+    return totalBudget;
+  }
 
-function renderBar(infos){
+  
+  function renderBar(infos) {
     var bar = $(".bar-container")[0];
     bar.innerHTML = "";
-    bar.style.backgroundColor = "rgb(240,240,240)";
+    bar.style.backgroundColor = "rgb(240, 240, 240)";
 
-    for (var key in infos){
+    for (var key in infos) {
         const node = document.createElement("div");
+        node.setAttribute("draggable", "true");
+        node.addEventListener("dragstart", function (event) {
+            event.dataTransfer.setData("text/plain", parseInt(event.target.id.replace("baritem", "")));
+            // $("body")[0].style.backgroundColor = "#FFDDDD";
+        });
 
-        // higher is more important
-        node.style.order = infos[key]["importance"];
-
+        node.style.order = infos[key]["importance"]*10;  // all orders times 10 so 0.1 works
+        if (key == window["zeroPointOne"]) {
+            node.style.order = infos[key]["importance"]*10-1;  // topmost of bottom
+        }
+        console.log(node.style.order);
         node.id = "baritem" + key.toString();
-        node.class = "bar";
-        node.innerHTML =`
-        <p class="bar_name">${infos[key]["name"]}</p>
-        <p class="bar_price">${infos[key]["price"]}</p>
-        <p class="bar_importance">${infos[key]["importance"]}</p>
-        `;
-        node.style.backgroundColor = `rgb(${r(infos[key]["name"])+128}, ${r(infos[key]["price"])+128}, ${r(infos[key]["importance"])+128})`;
+        node.className = "bar";
+        node.innerHTML = `
+            <p class="bar_name">${infos[key]["name"]}</p>
+            <p class="bar_price">${infos[key]["price"]}</p>
+            <p class="bar_importance">${infos[key]["importance"]}</p>
+        </div>`;
+        node.style.backgroundColor = `rgb(${r(infos[key]["name"]) + 128}, ${r(infos[key]["price"]) + 128}, ${r(infos[key]["importance"]) + 128})`;
+        node.style.flex = infos[key]["price"] / calculateTotalBudget(infos);
+
+
+
+        node.addEventListener("dragover", function (event) {
+            event.preventDefault();
+        });
+
+        node.addEventListener("drop", function (event) {
+            event.preventDefault();
+            const fromKey = parseInt(event.dataTransfer.getData("text/plain"));
+            const target = event.currentTarget;
+            // replaces the dropped item, being on the bottom of it. if it is blank space, go to the very top
+            if (target.id == "bar-container" || target.id == "baritem"+fromKey.toString()) {
+                var lightest = 1000000;
+                for (var key in window["infos"]) {
+                    var temp = window["infos"][key]["importance"];
+                    if (temp < lightest) {
+                        lightest = temp;
+                    }
+                }
+                window["infos"][fromKey]["importance"] = lightest - 1;
+            } else {
+                const toKey = parseInt(target.id.replace("baritem", ""));
+                const toWeight = window["infos"][toKey]["importance"];
+                window["infos"][fromKey]["importance"] = toWeight + 1;  // this causes jankiness
+            }
+            window["zeroPointOne"] = fromKey;
+
+            $("body")[0].style.backgroundColor = "#FFFFFF";
+
+            reRender();
+        });
 
         bar.appendChild(node);
     }
@@ -139,13 +192,12 @@ $("#addform > form").on("submit", function(event) {
 
     infos[Object.keys(infos).length] = {
         "name": $("#addform_name")[0].value,
-        "price": $("#addform_price")[0].value,
-        "importance": $("#addform_importance")[0].value
+        "price": parseFloat($("#addform_price")[0].value),
+        "importance": parseInt($("#addform_importance")[0].value)
     }
     $("#addform")[0].style.display = "none";
     reRender();
 })
-
 
 
 
