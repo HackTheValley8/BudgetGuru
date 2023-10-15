@@ -2,6 +2,7 @@
 const express = require("express")
 const path = require("path")
 const app = express()
+app.use(express.static('../static'))
 const hbs = require("hbs")
 //set port if hosting on localhost
 port = 3000
@@ -177,17 +178,13 @@ app.post("/signup", async (req, res) => {
 
 app.post("/budget-planner", requireLogin, async (req, res) => {
     console.log("Session username:", req.session.username);  // Debugging line
-  
-    const contents = req.body['content[]'];
-    const prices = req.body['price[]'];
-    const importances = req.body['importance[]'];
-  
+    
     const items = [];
-    for (let i = 0; i < contents.length; i++) {
+    for (let i = 0; i < Object.keys(req.body).length; i++) {
       items.push({
-        content: contents[i],
-        price: parseInt(prices[i]),
-        importance: parseInt(importances[i])
+        content: req.body[i]["name"],
+        price: parseFloat(req.body[i]["price"]),
+        importance: parseInt(req.body[i]["importance"])
       });
     }
   
@@ -214,6 +211,35 @@ app.post("/budget-planner", requireLogin, async (req, res) => {
         res.status(500).send("Internal Server Error.");
       }
       
+  });
+
+
+
+  app.get("/usersDatabase", requireLogin, async (req, res) => {
+    console.log("Session username:", req.session.username);  // Debugging line
+  
+    try {
+        const user = await LogInCollection.findOne({ name: req.session.username });
+        console.log("User found:", user);  // Debugging line
+      
+        if (!user) {
+          return res.status(404).send("User not found");
+        }
+        var toret = {};
+        console.log(user.tables);
+        for (let i = 0; i < Object.keys(user.tables).length; i++) {
+            const entry = user.tables[i];
+            toret[i] = {
+                "name": entry["content"],
+                "price": entry["price"],
+                "importance": entry["importance"]
+            }
+        }
+        res.json(toret);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error.");
+      }
   });
   
 //post settiongs category

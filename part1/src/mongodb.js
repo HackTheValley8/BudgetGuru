@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 // Replace <password> with your actual MongoDB Atlas password
-const mongoURI = "mongodb+srv://aloisekua:LoLg4wQfe2ylcvme@clusterone.ckwkfg2.mongodb.net/";
+const mongoURI = "mongodb+srv://johnhaoallwood:8ofC5RkqSFufkEqG@cluster0.pndknyl.mongodb.net/";
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
