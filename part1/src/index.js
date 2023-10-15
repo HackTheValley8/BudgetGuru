@@ -159,6 +159,16 @@ app.post("/signup", async (req, res) => {
     const data = {
         name: req.body.name,
         password: req.body.password,
+        tables: [
+            {"content": "food", "price": 850, "importance": 95},
+            {"content": "household expenditure", "price": 750, "importance": 80},
+            {"content": "shelter", "price": 1600, "importance": 90},
+            {"content": "clothing", "price": 300, "importance": 40},
+            {"content": "transportation", "price": 1000, "importance": 70},
+            {"content": "healthcare", "price": 250, "importance": 85},
+            {"content": "recreation", "price": 400, "importance": 10},
+            {"content": "education", "price": 150, "importance": 40}
+        ]
     }
     
     // Check if the username already exists

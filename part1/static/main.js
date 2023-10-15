@@ -31,17 +31,17 @@ $(document).ready(async function () {
         const clickedkey = parseInt(clicked.parentElement.parentElement.id.replace("tableitem", ""));
     
         if (clicked.classList.contains("table_name")) {
-            infos[clickedkey]["name"] = clicked.value;
+            window["infos"][clickedkey]["name"] = clicked.value;
         } else if (clicked.classList.contains("table_price")) {
-            infos[clickedkey]["price"] = parseFloat(clicked.value);
+            window["infos"][clickedkey]["price"] = parseFloat(clicked.value);
         } else if (clicked.classList.contains("table_importance")) {
-            infos[clickedkey]["importance"] = parseInt(clicked.value);
+            window["infos"][clickedkey]["importance"] = parseInt(clicked.value);
         } else if (clicked.classList.contains("table_delete")) {
             removeRow(clickedkey);
         }
         // reRender();  // don't because it cancels focus
-        renderBar(infos);
-        localSave(infos);
+        renderBar(window["infos"]);
+        localSave(window["infos"]);
         // result.innerText = e.target.value;
     }
     
@@ -115,17 +115,35 @@ $(document).ready(async function () {
             node.id = "baritem" + key.toString();
             node.className = "bar";
     
-            node.style.backgroundColor = `rgb(${r(infos[key]["name"]) + 128}, ${r(infos[key]["price"]) + 128}, ${r(infos[key]["importance"]) + 128})`;
+            node.style.backgroundColor = `rgb(${r(infos[key]["name"]) + 128}, ${r(infos[key]["price"]) + 128}, ${r(infos[key]["name"]) + 128})`;
             node.style.flex = infos[key]["price"] / calculateTotalBudget(infos);
     
             var offsetHeight = $(".bar-container")[0].offsetHeight * infos[key]["price"] / calculateTotalBudget(infos);
-            if (offsetHeight > 300) {
+            if (offsetHeight > 1000) {
                 node.innerHTML = `
-                <p class="bar_name">${infos[key]["name"]}</p>
-                <p class="bar_price" style="bottom: 0;">${infos[key]["price"]}</p>
-                <div class="bar_importance" style="float:right;position:absolute;bottom:0;">${infos[key]["importance"]}</div>`;
-            } // this part
-    
+                <div class="bar">
+                    <div class="bar-content">
+                        <div class="bar-details">
+                            <p class="bar-name">${infos[key]["name"]}</p>
+                            <p class="bar-price">$${infos[key]["price"]}</p>
+                        </div>
+                    <div class="bar-importance">${infos[key]["importance"]}</div>
+                </div>
+                `;
+            } else if(offsetHeight <= 1000 && offsetHeight >= 20){
+                node.innerHTML = `
+                <div class="bar small-height">
+                    <div class="bar-content">
+                        <div class="bar-details">
+                            <p class="bar-name">${infos[key]["name"]}</p>
+                            <p class="bar-price">$${infos[key]["price"]}</p>
+                        </div>
+                    <div class="bar-importance">${infos[key]["importance"]}</div>
+                </div>
+                `;
+            } else if (offsetHeight < 20) {
+                node.style.display = "none";
+            }
             node.addEventListener("dragover", function (event) {
                 event.preventDefault();
             });
@@ -206,23 +224,24 @@ $(document).ready(async function () {
     $("#addform > form").on("submit", function(event) {
         event.preventDefault();
     
-        const i = $("#addform_importance")[0].value;
+        var i = $("#addform_importance")[0].value;
         if (i === null || i == "") {
             i = $("#addform_importance")[0].placeholder;
         }
 
-        infos[Object.keys(infos).length] = {
+        window["infos"][Object.keys(window["infos"]).length] = {
             "name": $("#addform_name")[0].value,
             "price": parseFloat($("#addform_price")[0].value),
             "importance": parseInt(i)
         }
         $("#addform")[0].style.display = "none";
+        console.log(window["infos"]);
         reRender();
     })
 
     $("#addform_name").on("focusout", function(event) {
         const name = $("#addform_name")[0].value;
-        infos = fetch(`http://localhost:5000/importance/${name}`, {
+        fetch(`http://localhost:5000/importance/${name}`, {
             method: 'GET'
         }).then(response => response.json())
         .then(response => {

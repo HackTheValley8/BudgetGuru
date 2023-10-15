@@ -12,6 +12,7 @@
         <script src="main.js"></script> 
         <title>Document</title>
         <style>
+          @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
             body {
                 font-family: Arial, sans-serif;
                 padding-top: 80px;
@@ -48,35 +49,68 @@
                 flex-direction: column;
                 justify-content: flex-end;
                 align-items: flex-start;
-                height: 100vh;
+                height: 80vh;
                 float: right;
+                font-size: 16px;
+                text-align: center;
+                font-family: 'Open Sans', sans-serif;
             }
 
             .bar-container div {
                 width: 100%;
             }
     
-            .bar {
-                width: 60px;
-                margin: 5px;
-                flex: 1;
-            }
+            .bar .bar-importance{
+              align-self: flex-end !important;
+              text-align: right;
+              font-size: 16px;
+              font-family: 'Open Sans', sans-serif;
+          }
+          .bar .small-height{
+              font-size: 14px;
+          }
+          .bar .small-height .bar-importance {
+              font-size: 14px;
+          }
+          .bar {
+              display: flex;
+              flex-direction: column;
+              border: 1px solid black;
+              width: 60px;
+              margin: 5px;
+              flex: 1;
+              font-size: 0px;
+              padding: 0px;
+              padding-right: 10px;
+              padding-left: 2px;
+              /*Fancy stuff*/
+              box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+              transition: transform 0.3s ease-in-out;
+              font-family: 'Open Sans', sans-serif;
+          }
+          .bar .bar-content{
+              display: flex;
+              flex-direction: column;
+          }
+          .bar .bar-details{
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+          }
+          .bar .bar-name {
+              margin-right: 30px; 
+          }
+
+          .bar .bar-price {
+              margin-left: 10px;
+          }
+          .bar:hover{
+              transform: scale(1.1);
+          }
             @media (max-width: 767px) {
                 .bar-container.custom-left-align {
                 justify-content: flex-start !important;
                 }
-            }
-    
-            .saving-bar {
-                background-color: black;
-            }
-    
-            .income-bar {
-                background-color: green;
-            }
-    
-            .expenditure-bar {
-                background-color: red;
             }
         </style>
 
@@ -119,6 +153,7 @@
                 padding: 10px;
             }
             .nav {
+                height: 60px;
                 text-align: center; /* Center align the nav */
                 position: absolute; /* Position the nav absolutely */
                 top: 0; /* Stick it to the top */
@@ -144,6 +179,10 @@
             .inside li {
                 display: inline;
             }
+
+            p {
+              margin: 0px;
+            }
         </style>
     </head>
 <body>
@@ -153,6 +192,8 @@
                 <li><a href="/home">Home</a></li>
                 <li><a href="/settings">Settings</a></li>
                 <li><a href="/budget-planner">Budget Planner</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">SignUp</a></li>
             </ul>
         </nav>
     </div>
