@@ -1,9 +1,17 @@
 $(document).ready(function () {
 
-var infos = {
-    0: {"name": "groceries", "price": 200, "importance": 8},
-    1: {"name": "rent", "price": 600, "importance": 9}
-};
+
+infos = localStorage.getItem("infosave");
+if (infos === null) {
+    infos = {
+        0: {"name": "groceries", "price": 200, "importance": 8},
+        1: {"name": "rent", "price": 600, "importance": 9}
+    };
+    localStorage.setItem("infosave", JSON.stringify(infos))
+} else {
+    infos = JSON.parse(infos);
+}
+
 
 function h(s) {
     let h = 0;
@@ -19,6 +27,14 @@ function r(s) {
     return Math.abs(h(s.toString())) % 128;
 }
 
+function removeRow(key) {
+    const len = Object.keys(infos).length;
+    for (var i=key; i<len-1; i++){
+        window['infos'][i] = infos[i+1];
+    }
+    delete infos[len-1];
+    reRender();
+}
 
 const tableHandler = function(e) {
     const clicked = e.currentTarget;
@@ -27,19 +43,21 @@ const tableHandler = function(e) {
     if (clicked.classList.contains("table_name")) {
         infos[clickedkey]["name"] = clicked.value;
     } else if (clicked.classList.contains("table_price")) {
-        infos[clickedkey]["price"] = clicked.value;
+        infos[clickedkey]["price"] = parseFloat(clicked.value);
     } else if (clicked.classList.contains("table_importance")) {
-        infos[clickedkey]["importance"] = clicked.value;
+        infos[clickedkey]["importance"] = parseInt(clicked.value);
+    } else if (clicked.classList.contains("table_delete")) {
+        removeRow(clickedkey);
     }
-    // reRender();
+    // reRender();  // don't because it cancels focus
     renderBar(infos);
+    localSave(infos);
     // result.innerText = e.target.value;
 }
 
-
 function renderTable(infos){
     var table = $(".container table tbody")[0];
-    table.innerHTML = "<tr><th>Item</th><th>Price</th><th>Importance</th></tr>";
+    table.innerHTML = "<tr><th>Item</th><th>Price</th><th>Importance</th><th>Delete</th></tr>";
 
     for (var key in infos){
         const node = document.createElement("tr");
@@ -55,9 +73,22 @@ function renderTable(infos){
         c.innerHTML = '<input type="text" class="table_importance"></input>';
         c.children[0].value = infos[key]["importance"];
 
+        const d = document.createElement("td");
+
+        const e = document.createElement("button");
+        e.style.background = "#BB4444";
+        e.classList = "table_delete";
+        e.style.height = "30px";
+        e.style.width = "90%";
+        e.style.margin = "auto";
+        $(e).on("click", tableHandler);
+
+        d.appendChild(e)
+
         node.appendChild(a);
         node.appendChild(b);
         node.appendChild(c);
+        node.appendChild(d);
         
         table.appendChild(node);
     }
@@ -77,8 +108,7 @@ function renderBar(infos){
 
         node.id = "baritem" + key.toString();
         node.class = "bar";
-        node.innerHTML =
-        `
+        node.innerHTML =`
         <p class="bar_name">${infos[key]["name"]}</p>
         <p class="bar_price">${infos[key]["price"]}</p>
         <p class="bar_importance">${infos[key]["importance"]}</p>
@@ -89,16 +119,32 @@ function renderBar(infos){
     }
 }
 
+function localSave(infos) {
+    localStorage.setItem("infosave", JSON.stringify(infos));
+}
 function reRender(){
     renderTable(infos);
     renderBar(infos);
+    localSave(infos);
 }
 reRender();
 
 
 $("#addbutton").on("click", function(event) {
-    infos[infos.length]
+    $("#addform")[0].style.display = "initial";
 });
+
+$("#addform > form").on("submit", function(event) {
+    event.preventDefault();
+
+    infos[Object.keys(infos).length] = {
+        "name": $("#addform_name")[0].value,
+        "price": $("#addform_price")[0].value,
+        "importance": $("#addform_importance")[0].value
+    }
+    $("#addform")[0].style.display = "none";
+    reRender();
+})
 
 
 

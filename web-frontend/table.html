@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
+        <script>var infos;</script>
+
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,17 +103,28 @@
             }
             #addform {
                 display: none;
+                margin: auto;
+                left: 40%;
+                top: 30%;
+                position: absolute;
+                background: white;
+                border: 1px solid black;
+                border-radius: 10px;
+                padding: 10px;
             }
         </style>
     </head>
 <body>
     <button id="addbutton"> + </button>
-    <div id="addform">
-        <form action="/action_page.php">
-            <label for="fname">First name:</label><br>
-            <input type="text" id="fname" name="fname" value="John"><br>
-            <label for="lname">Last name:</label><br>
-            <input type="text" id="lname" name="lname" value="Doe"><br><br>
+    <div id="addform" class="float-start">
+        <form>
+            <label for="name">Purchased:</label><br>
+            <input type="text" id="addform_name" name="name"><br>
+            <label for="price">Price:</label><br>
+            <input type="number" id="addform_price" name="price"><br>
+            <label for="importance">Importance:</label><br>
+            <input type="number" id="addform_importance" name="importance"><br><br>
+
             <input type="submit" value="Submit">
         </form> 
     </div>
