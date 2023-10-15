@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Terminal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    body {
+    font-family: monospace;
+    background-color: #333;
+    color: #fff;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.terminal {
+    width: 1000px;
+    height: 500px;
+    border: 1px solid #fff;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#output {
+    padding: 10px;
+    white-space: pre-wrap;
+    overflow-y: scroll;
+    height: 80%;
+}
+
+#input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+</style>
+<body>
+    <div class="terminal">
+        <pre id="output"></pre>
+        <input id="input" type="text" autofocus>
+    </div>
+    <script>
+        const output = document.getElementById('output');
+const input = document.getElementById('input');
+
+input.addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') {
+        const command = input.value;
+        input.value = '';
+        processCommand(command);
+    }
+});
+
+function processCommand(command) {
+    const response = executeCommand(command);
+    appendToTerminal(command, 'user');
+    appendToTerminal(response, 'system');
+}
+
+function appendToTerminal(text, className) {
+    const line = document.createElement('div');
+    line.className = className;
+    line.textContent = text;
+    output.appendChild(line);
+    output.scrollTop = output.scrollHeight;
+}
+
+function executeCommand(command) {
+    const parts = command.split(' ');
+    const action = parts[0].toLowerCase();
+    switch (action) {
+        case 'help':
+            return 'Ciphur Terminus > \n - clear \n - help \n - stock';
+        case 'stock':
+            // Implement a stock price lookup here.
+            return 'Stock price lookup result goes here.';
+        case 'clear':
+        output.innerHTML = '';
+        return '';
+        default:
+            return 'Command not recognized. Try "convert" or "stock".';
+    }
+}
+
+    </script>
+</body>
+</html>

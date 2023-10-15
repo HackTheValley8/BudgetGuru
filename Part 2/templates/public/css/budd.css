@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+}
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:hover {
+    background-color: #ddd;
+}
+.total-budget {
+    font-weight: bold;
+    background-color: #ffcc00;
+}
+.item-section {
+    background-color: #c2e9fb;
+}
+.bar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    height: 100vh;
+    float: right;
+}
+
+.bar-container div {
+    width: 100%;
+}
+
+.bar {
+    width: 60px;
+    margin: 5px;
+    flex: 1;
+}
+
+.saving-bar {
+    background-color: black;
+}
+
+.income-bar {
+    background-color: green;
+}
+
+.expenditure-bar {
+    background-color: red;
+}
+
+.container {
+    padding-left: 0px;
+}
+.container td > input{
+    background-color: inherit;
+    border: none;
+    border-bottom: 2px black dotted;
+    padding-bottom: 0px;
+}
+.col-8 table {
+    margin-left: 0px;
+}
+#addbutton {
+    float: right;
+    width: 50px;
+    height: 50px;
+    border: 1px black solid;
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom-left-radius: 20px;
+
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#addform {
+    display: none;
+    margin: auto;
+    left: 40%;
+    top: 30%;
+    position: absolute;
+    background: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+}
