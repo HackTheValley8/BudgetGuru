@@ -14,6 +14,7 @@
         <style>
             body {
                 font-family: Arial, sans-serif;
+                padding-top: 80px;
             }
             table {
                 width: 80%;
@@ -60,6 +61,11 @@
                 margin: 5px;
                 flex: 1;
             }
+            @media (max-width: 767px) {
+                .bar-container.custom-left-align {
+                justify-content: flex-start !important;
+                }
+            }
     
             .saving-bar {
                 background-color: black;
@@ -84,7 +90,7 @@
                 border-bottom: 2px black dotted;
                 padding-bottom: 0px;
             }
-            .col-8 table {
+            .table {
                 margin-left: 0px;
             }
             #addbutton {
@@ -112,9 +118,47 @@
                 border-radius: 10px;
                 padding: 10px;
             }
+            .nav {
+                text-align: center; /* Center align the nav */
+                position: absolute; /* Position the nav absolutely */
+                top: 0; /* Stick it to the top */
+                left: 50%; /* Move it to the center horizontally */
+                transform: translateX(-50%); /* Correct the horizontal centering */
+                background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+                padding: 20px 0; /* Add some vertical padding */
+                width: 100%; /* Full width */
+            }
+
+            .nav a {
+                text-decoration: none;
+                color: black;
+                font-size: 15px;
+                margin: 0 20px; /* Add horizontal spacing between links */
+            }
+
+            .inside {
+                list-style: none;
+                padding: 0;
+            }
+
+            .inside li {
+                display: inline;
+            }
         </style>
     </head>
 <body>
+    <div class="nav fixed-top">
+        <nav class="naver">
+            <ul class="inside">
+                <li><a href="./home">Home</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/budget-planner">Budget Planner</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">SignUp</a></li>
+            </ul>
+        </nav>
+    </div>
+
     <button id="addbutton"> + </button>
     <div id="addform" class="float-start">
         <form>
@@ -129,14 +173,14 @@
         </form> 
     </div>
     <div class="row">
-        <div class="col-4">
-            <div style="width: 150px;" id="bar-container" class="bar-container">
+        <div class="col-md-3 order-md-1 order-2">
+            <div style="width: 250px;" id="bar-container" class="bar-container">
             </div>
         </div>
-        <div class="col-8">
+        <div class="col-md-9 order-md-2 order-1">
             <h1>Budget Table</h1>
             <div class="container">
-                <table>
+                <table class="table">
                     <tr>
                         <th>Item</th>
                         <th>Price</th>
