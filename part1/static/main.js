@@ -2,7 +2,6 @@ $(document).ready(async function () {
 
     var zeroPointOne = null;
     infos = await localGet();
-    console.log(infos);
     
     function h(s) {
         let h = 0;
@@ -163,7 +162,6 @@ $(document).ready(async function () {
     
     function localSave(infos) {
         // localStorage.setItem("infosave", JSON.stringify(infos));
-        console.log(infos);
         fetch('/budget-planner', {
             method: 'POST',
             headers: {
@@ -208,15 +206,29 @@ $(document).ready(async function () {
     $("#addform > form").on("submit", function(event) {
         event.preventDefault();
     
+        const i = $("#addform_importance")[0].value;
+        if (i === null || i == "") {
+            i = $("#addform_importance")[0].placeholder;
+        }
+
         infos[Object.keys(infos).length] = {
             "name": $("#addform_name")[0].value,
             "price": parseFloat($("#addform_price")[0].value),
-            "importance": parseInt($("#addform_importance")[0].value)
+            "importance": parseInt(i)
         }
         $("#addform")[0].style.display = "none";
         reRender();
     })
-    
+
+    $("#addform_name").on("focusout", function(event) {
+        const name = $("#addform_name")[0].value;
+        infos = fetch(`http://localhost:5000/importance/${name}`, {
+            method: 'GET'
+        }).then(response => response.json())
+        .then(response => {
+            $("#addform_importance")[0].placeholder = parseInt(response["importance"]);
+        });
+    });
     
     
     });
