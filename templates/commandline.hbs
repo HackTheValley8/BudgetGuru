@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Terminal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+</head>
+<style>
+    body {
+    font-family: monospace;
+    background-color: #333;
+    color: #fff;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.terminal {
+    width: 1000px;
+    height: 500px;
+    border: 1px solid #fff;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#output {
+    padding: 10px;
+    white-space: pre-wrap;
+    overflow-y: scroll;
+    height: 80%;
+}
+
+#input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+</style>
+<body>
+    <h2 class="inp" style="position: absolute;top: 0;"></h2>
+    <div class="terminal">
+        <pre id="output"></pre>
+        <input id="input" type="text" autofocus>
+    </div>
+    <script>
+    const typed = new Typed('.inp', {
+        strings: ['Do you think Economics and Money management are important?', 'Ask yourself.... How much do you truly care when it comes to your savings.','Can you fight your desires in spending more?'],
+        typeSpeed: 30,
+        backSpeed:10,
+        loop: true
+    });
+
+    const output = document.getElementById('output');
+    const input = document.getElementById('input');
+
+    let money = 1000; // Initializing money
+    let lives = 3;    
+    let questionIndex = 0;
+
+    const questions = [
+        'You see a nice shirt for $50. What do you do? (buy/save)',
+        'Your car breaks down. Repair costs $200. What do you do? (buy/save)',
+        'A friend is selling concert tickets for $100. What do you do? (buy/save)',
+        'Your computer is old. A new one costs $400. What do you do? (buy/save)',
+        'You have the chance to invest $300 for a likely profit. What do you do? (buy/save)',
+        'Your work shoes are worn out. New ones cost $75. What do you do? (buy/save)'
+    ];
+
+    const correctAnswers = ['save', 'buy', 'save', 'save', 'buy', 'buy'];
+
+    // Display initial money and first question
+    appendToTerminal(`You start with $${money} and have ${lives} lives.`);
+    appendToTerminal(questions[0]);
+
+    input.addEventListener('keyup', function (event) {
+        if (event.key === 'Enter') {
+            const command = input.value;
+            input.value = '';
+            processCommand(command);
+        }
+    });
+
+    function processCommand(command) {
+        const response = executeCommand(command);
+        appendToTerminal(command, 'user');
+        appendToTerminal(response, 'system');
+    }
+
+    function appendToTerminal(text, className) {
+        const line = document.createElement('div');
+        line.className = className;
+        line.textContent = text;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+    }
+
+    function executeCommand(command) {
+        if (questionIndex < questions.length) {
+            if (command === correctAnswers[questionIndex]) {
+                money += 50;
+                appendToTerminal(`Correct! You now have $${money}.`);
+            } else {
+                lives -= 1;
+                appendToTerminal(`Wrong. Lives left: ${lives}`);
+            }
+
+            if (lives <= 0) {
+                appendToTerminal('Game over.');
+                return 'You lost all your lives!';
+            }
+
+            questionIndex++;
+            if (questionIndex < questions.length) {
+                return questions[questionIndex];
+            } else {
+                return 'Congratulations, you won the game! You are a master at this.';
+            }
+        }
+    }
+    </script>
+</body>
+</html>

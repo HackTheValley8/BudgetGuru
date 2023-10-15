@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Settings</title>
+    <link rel="stylesheet" href="/css/settings.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div class="nav">
+    <nav class="naver">
+        <ul class="inside">
+            <li><a href="./home">Home</a></li>
+            <li><a href="/settings">Settings</a></li>
+            <li><a href="/budget-planner">Budget Planner</a></li>
+        </ul>
+    </nav>
+</div>
+
+<!--
+   <h1>Settings</h1>
+   <p style="font-size: 20px;">Logged in as <span style="color: red;">{{ username }}</span></p>
+   <div class="changeuser">
+<form action="/changeusername" method="POST">
+    <h4>Change Username</h4>
+    <input type="text" placeholder="New Username" name="newUsername">
+    <button type="submit">Submit</button>
+</form>
+
+   </div>
+
+   <div class="changepass">
+   <form action="">
+    <h4>Change User Password</h4>
+    <input type="text" placeholder="Old Password" name="" id="">
+    <input type="text" placeholder="New Password">
+    <button>Submit</button>
+   </form>
+    </div>
+
+    <div class="logout">
+   <form action="/logout" method="GET">
+    <h1>Logout</h1>
+    <button>Log out</button>
+   </form>
+   </div>-->
+   <div class="setting">
+    
+   <div class="container p-0">
+        <h1 class="h3 mb-3">Settings</h1>
+        <div class="row">
+            <div class="col-md-5 col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Profile Settings</h5>
+                    </div>
+                    <div class="list-group list-group-flush" role="tablist">
+                        <a class="list-group-item list-group-item-action show" data-bs-toggle="list" href="#account" role="tab">
+                          Change Username
+                        </a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab">
+                          Password
+                        </a>
+                        <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#logout" role="tab">
+                          Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 col-xl-8">
+                <div class="tab-content">
+                    <div class="tab-pane fade" id="account" role="tabpanel">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Username</h5>
+            <form action="/changeusername" method="POST">
+                <div class="form-group">
+                    <label for="inputUsernameNew">New Username</label>
+                    <input type="text" class="form-control" id="inputUsernameNew" name="newUsername">
+                </div>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+                    <div class="tab-pane fade" id="password" role="tabpanel">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Password</h5>
+            <!-- Update action and method -->
+            <form action="/changepassword" method="POST">
+                <div class="form-group">
+                    <label for="inputPasswordCurrent">Current password</label>
+                    <!-- Added name attribute -->
+                    <input type="password" class="form-control" id="inputPasswordCurrent" name="currentPassword">
+                    <small><a href="#">Forgot your password?</a></small>
+                </div>
+                <div class="form-group">
+                    <label for="inputPasswordNew">New password</label>
+                    <!-- Added name attribute -->
+                    <input type="password" class="form-control" id="inputPasswordNew" name="newPassword">
+                </div>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+                    <div class="tab-pane fade" id="logout" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Logout</h5>
+                                
+                                <p>Are you sure you want to log out?</p>
+                    
+                                <form action="/logout" method="GET">
+                                    <button type="submit" class="btn btn-danger">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+<footer style="position: absolute; bottom: 0; left: 0;">
+    <h1>Logged in as {{username}}</h1>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

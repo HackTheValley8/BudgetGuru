@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>BudgetGuru</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+</head>
+<body>
+<div class="nav">
+    <nav class="naver">
+        <ul class="inside">
+            <li><a href="./home">Home</a></li>
+            <li><a href="/settings">Settings</a></li>
+            <li><a href="/budget-planner">Budget Planner</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/signup">SignUp</a></li>
+        </ul>
+    </nav>
+</div>
+<div class="content">
+  <div class="window">
+        <div class="title-bar">
+            <div class="buttons">
+                <div class="close-button"></div>
+                <div class="minimize-button"></div>
+                <div class="maximize-button"></div>
+            </div>
+        </div>
+        <div class="terminal">
+            <pre>
+<span class="command"> /home/user/data > </span><span id="command-output"></span><span class="cursor"></span>
+            </pre>
+        </div>
+ </div>
+<script>
+
+    const terminalOutput = document.getElementById('command-output');
+    const cursor = document.querySelector('.cursor');
+
+    const typed = new Typed(terminalOutput, {
+        strings: ['ls \n <span class="command">/home/user/data > </span><span id="command-output"></span><span class="cursor"></span><span class="command" style="color: blue;">BudgetGuru.sh</span> \n <span class="command">/home/user/data > </span><span id="command-output" class="command"></span><span class="cursor"></span> <span class="command">chmod +x</span> <span class="command" style="color: red;">BudgetGuru.sh</span> \n <span class="command">/home/user/data > </span><span id="command-output" class="command"></span><span class="cursor"></span> <span class="command">bash</span> <span style="color: red;" class="command">BudgetGuru.sh</span>  \n ╭━━╮╱╱╱╱╱╭╮╱╱╱╱╱╭╮╭━━━╮ \n ┃╭╮┃╱╱╱╱╱┃┃╱╱╱╱╭╯╰┫╭━╮┃ \n ┃╰╯╰┳╮╭┳━╯┣━━┳━┻╮╭┫┃╱╰╋╮╭┳━┳╮╭╮ \n ┃╭━╮┃┃┃┃╭╮┃╭╮┃┃━┫┃┃┃╭━┫┃┃┃╭┫┃┃┃ \n ┃╰━╯┃╰╯┃╰╯┃╰╯┃┃━┫╰┫╰┻━┃╰╯┃┃┃╰╯┃ \n ╰━━━┻━━┻━━┻━╮┣━━┻━┻━━━┻━━┻╯╰━━╯ \n ╱╱╱╱╱╱╱╱╱╱╭━╯┃ \n ╱╱╱╱╱╱╱╱╱╱╰━━╯'],
+        typeSpeed: 50,
+        loop:false,
+        onComplete: (self) => {
+            // Blink cursor when Typed.js completes typing
+            cursor.style.animation = 'blink 1s step-end infinite';
+        },
+    });
+
+</script>
+</body>
+</html>
