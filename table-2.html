@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script>var infos;</script>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="main.js"></script> 
+        <title>Document</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding-top: 80px;
+            }
+            table {
+                width: 80%;
+                margin: 20px auto;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                text-align: center;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+            tr:hover {
+                background-color: #ddd;
+            }
+            .total-budget {
+                font-weight: bold;
+                background-color: #ffcc00;
+            }
+            .item-section {
+                background-color: #c2e9fb;
+            }
+            .bar-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: flex-start;
+                height: 100vh;
+                float: right;
+            }
+
+            .bar-container div {
+                width: 100%;
+            }
+    
+            .bar {
+                width: 60px;
+                margin: 5px;
+                flex: 1;
+            }
+            @media (max-width: 767px) {
+                .bar-container.custom-left-align {
+                justify-content: flex-start !important;
+                }
+            }
+            
+            .saving-bar {
+                background-color: black;
+            }
+    
+            .income-bar {
+                background-color: green;
+            }
+    
+            .expenditure-bar {
+                background-color: red;
+            }
+            .container {
+                padding-left: 0px;
+            }
+            .container td > input{
+                background-color: inherit;
+                border: none;
+                border-bottom: 2px black dotted;
+                padding-bottom: 0px;
+            }
+            .col-8 table {
+                margin-left: 0px;
+            }
+            #addbutton {
+                float: right;
+                width: 50px;
+                height: 50px;
+                border: 1px black solid;
+                border-top: 0px;
+                border-right: 0px;
+                border-bottom-left-radius: 20px;
+
+                font-size: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #addform {
+                display: none;
+                margin: auto;
+                left: 40%;
+                top: 30%;
+                position: absolute;
+                background: white;
+                border: 1px solid black;
+                border-radius: 10px;
+                padding: 10px;
+            }
+            .nav {
+                text-align: center; /* Center align the nav */
+                position: absolute; /* Position the nav absolutely */
+                top: 0; /* Stick it to the top */
+                left: 50%; /* Move it to the center horizontally */
+                transform: translateX(-50%); /* Correct the horizontal centering */
+                background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+                padding: 20px 0; /* Add some vertical padding */
+                width: 100%; /* Full width */
+            }
+
+            .nav a {
+                text-decoration: none;
+                color: black;
+                font-size: 15px;
+                margin: 0 20px; /* Add horizontal spacing between links */
+            }
+
+            .inside {
+                list-style: none;
+                padding: 0;
+            }
+
+            .inside li {
+                display: inline;
+            }
+
+        </style>
+    </head>
+<body>
+    <div class="nav fixed-top">
+        <nav class="naver">
+            <ul class="inside">
+                <li><a href="./home">Home</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/budget-planner">Budget Planner</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">SignUp</a></li>
+            </ul>
+        </nav>
+    </div>
+    <button id="addbutton"> + </button>
+    <div id="addform" class="float-start">
+        <form>
+            <label for="name">Purchased:</label><br>
+            <input type="text" id="addform_name" name="name"><br>
+            <label for="price">Price:</label><br>
+            <input type="number" id="addform_price" name="price"><br>
+            <label for="importance">Importance:</label><br>
+            <input type="number" id="addform_importance" name="importance"><br><br>
+
+            <input type="submit" value="Submit">
+        </form> 
+    </div>
+    <div class = "container">
+    <div class="row">
+        <div class="col-md-3 order-md-1 order-2">
+            <div style="width: 250px;" class="bar-container">
+            </div>
+        </div>
+        <div class="col-md-9 order-md-2 order-1">
+            <h1>Budget Table</h1>
+            <div class="container">
+                <table class="table">
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Importance</th>
+                    </tr>
+                    <!-- Add more items as needed -->
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        // ... (Your existing JavaScript for bar percentages) ...
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            const itemName = event.target.querySelector('td:first-child').textContent;
+            event.dataTransfer.setData("text", itemName);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text");
+            const totalBudgetTable = document.getElementById("total-budget");
+            const newRow = totalBudgetTable.insertRow(-1);
+            const newItemCell = newRow.insertCell(0);
+            newItemCell.textContent = data;
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
