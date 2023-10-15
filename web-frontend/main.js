@@ -128,15 +128,17 @@ function calculateTotalBudget(infos) {
         console.log(node.style.order);
         node.id = "baritem" + key.toString();
         node.className = "bar";
-        node.innerHTML = `
-            <p class="bar_name">${infos[key]["name"]}</p>
-            <p class="bar_price">${infos[key]["price"]}</p>
-            <p class="bar_importance">${infos[key]["importance"]}</p>
-        </div>`;
+
         node.style.backgroundColor = `rgb(${r(infos[key]["name"]) + 128}, ${r(infos[key]["price"]) + 128}, ${r(infos[key]["importance"]) + 128})`;
         node.style.flex = infos[key]["price"] / calculateTotalBudget(infos);
 
-
+        var offsetHeight = $(".bar-container")[0].offsetHeight * infos[key]["price"] / calculateTotalBudget(infos);
+        if (offsetHeight > 300) {
+            node.innerHTML = `
+            <p class="bar_name">${infos[key]["name"]}</p>
+            <p class="bar_price" style="bottom: 0;">${infos[key]["price"]}</p>
+            <div class="bar_importance" style="float:right;position:absolute;bottom:0;">${infos[key]["importance"]}</div>`;
+        } // this part
 
         node.addEventListener("dragover", function (event) {
             event.preventDefault();
