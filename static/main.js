@@ -169,7 +169,7 @@ $(document).ready(async function () {
                 }
                 window["zeroPointOne"] = fromKey;
     
-                $("body")[0].style.backgroundColor = "#FFFFFF";
+                // $("body")[0].style.backgroundColor = "#FFFFFF";
     
                 reRender();
             });
